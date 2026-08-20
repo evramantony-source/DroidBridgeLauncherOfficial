@@ -1,0 +1,1 @@
+Offline accounts are intended to be usable without completing a Microsoft login. Microsoft authentication remains separate and is not bypassed. This branch is prepared for the offline-account source change and CI build.
