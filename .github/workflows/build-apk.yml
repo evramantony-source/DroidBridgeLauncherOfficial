@@ -1,0 +1,30 @@
+name: Build DroidBridge APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master, offline-accounts-unlocked ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check Gradle project
+        run: |
+          test -f settings.gradle || test -f settings.gradle.kts
+          test -f gradlew
+          chmod +x gradlew
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --stacktrace
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: DroidBridgeLauncher-debug
+          path: '**/build/outputs/apk/debug/*.apk'
+          if-no-files-found: error
