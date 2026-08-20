@@ -1,0 +1,3 @@
+Offline accounts must be available without requiring prior Microsoft authentication. Microsoft sign-in remains an optional separate account path.
+
+The public source snapshot currently lacks the AccountStore/auth implementation and Android manifest required for a complete build, so this repository cannot be truthfully represented as a buildable 0.8.3 source tree until those missing components are restored.
