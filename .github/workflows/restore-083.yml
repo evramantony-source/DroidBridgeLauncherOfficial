@@ -1,0 +1,29 @@
+name: Restore 0.8.3 source
+
+on:
+  workflow_dispatch:
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract 0.8.3 archive
+        run: |
+          rm -rf restored-083
+          mkdir restored-083
+          tar -xzf DroidBridgeLauncherOfficial-0.8.3.tar.gz -C restored-083
+          ROOT=$(find restored-083 -mindepth 1 -maxdepth 1 -type d | head -n1)
+          if [ -z "$ROOT" ]; then ROOT=restored-083; fi
+          cp -a "$ROOT"/. ./
+          rm -rf restored-083
+          rm -f DroidBridgeLauncherOfficial-0.8.3.tar.gz
+      - name: Commit extracted source
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --quiet || git commit -m 'Restore complete DroidBridge Launcher 0.8.3 source'
+          git push
